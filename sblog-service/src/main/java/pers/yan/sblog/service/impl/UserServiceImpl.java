@@ -64,21 +64,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     @Transactional(rollbackFor = Exception.class)
     public UserVO addUser(UserDTO userDTO) throws SBlogException {
+        checkRoleExists(userDTO.getRoles());
+
         User user = new User();
         BeanUtils.copyProperties(userDTO, user);
         user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
         this.save(user);
 
-        if (CollectionUtils.isNotEmpty(userDTO.getRoles())) {
-            checkRoleExists(userDTO.getRoles());
-
-            userDTO.getRoles().forEach(roleId -> {
-                UserRole userRole = new UserRole();
-                userRole.setUserId(user.getUserId());
-                userRole.setRoleId(roleId);
-                userRoleMapper.insert(userRole);
-            });
-        }
+        userDTO.getRoles().forEach(roleId -> {
+            UserRole userRole = new UserRole();
+            userRole.setUserId(user.getUserId());
+            userRole.setRoleId(roleId);
+            userRoleMapper.insert(userRole);
+        });
 
         return this.baseMapper.findUserVoById(user.getUserId());
     }
@@ -89,18 +87,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = Optional.ofNullable(this.getById(userDTO.getUserId()))
                 .orElseThrow(() -> new SBlogException("用户不存在"));
 
+        checkRoleExists(userDTO.getRoles());
+
         BeanUtils.copyProperties(userDTO, user, "password");
         if (StringUtils.isNotBlank(userDTO.getPassword())) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
         this.updateById(user);
 
-        checkRoleExists(userDTO.getRoles());
-
         List<UserRole> userRoles = Optional.ofNullable(userRoleMapper.findByUserId(user.getUserId()))
                 .orElse(Collections.emptyList());
         Set<Integer> userRoleRoleIds = userRoles.stream().map(UserRole::getRoleId).collect(Collectors.toSet());
 
+        //删除用户角色
         if (CollectionUtils.isNotEmpty(userRoles)) {
             List<Integer> deleteUserRoleIds = userRoles.stream()
                     .filter(userRole -> !userDTO.getRoles().contains(userRole.getRoleId()))
@@ -108,6 +107,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             userRoleMapper.deleteBatchIds(deleteUserRoleIds);
         }
 
+        //添加新用户角色
         List<Integer> needToAddRoleIds = userDTO.getRoles().stream()
                 .filter(roleId -> !userRoleRoleIds.contains(roleId)).collect(Collectors.toList());
         needToAddRoleIds.forEach(roleId -> {
@@ -134,15 +134,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     private void checkRoleExists(List<Integer> roleIds) throws SBlogException {
-        if (CollectionUtils.isEmpty(roleIds)) {
-            return;
-        }
-        List<Role> roles = Optional.ofNullable(roleMapper.selectBatchIds(roleIds)).orElse(Collections.emptyList());
-        if (roles.size() != roleIds.size()) {
-            Set<Integer> existRoleIds = roles.stream().map(Role::getRoleId).collect(Collectors.toSet());
-            throw new SBlogException(String.format("角色id【%s】不存在",
-                    roleIds.stream().filter(roleId -> !existRoleIds.contains(roleId))
-                            .map(String::valueOf).collect(Collectors.joining(","))));
+        if (!CollectionUtils.isEmpty(roleIds)) {
+            List<Role> roles = Optional.ofNullable(roleMapper.selectBatchIds(roleIds)).orElse(Collections.emptyList());
+            if (roles.size() != roleIds.size()) {
+                Set<Integer> existRoleIds = roles.stream().map(Role::getRoleId).collect(Collectors.toSet());
+                throw new SBlogException(String.format("角色id【%s】不存在",
+                        roleIds.stream().filter(roleId -> !existRoleIds.contains(roleId))
+                                .map(String::valueOf).collect(Collectors.joining(","))));
+            }
         }
     }
 

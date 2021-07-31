@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapper.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.yan.sblog.dao.mapper.RolePermissionMapper">
+
+    <delete id="deleteByRoleId">
+        delete from role_permission where role_id = #{roleId}
+    </delete>
+
+</mapper>

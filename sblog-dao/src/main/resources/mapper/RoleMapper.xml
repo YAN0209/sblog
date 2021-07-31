@@ -18,5 +18,21 @@
         where ur.user_id = #{userId}
     </select>
 
+    <select id="findRoleVoByPage" resultMap="roleVoResultMap">
+        select * from role
+        <where>
+            <if test="roleQuery.roleName != null">
+                and role_name = #{roleQuery.roleName}
+            </if>
+            <if test="roleQuery.roleCode != null">
+                and role_code = #{roleQuery.roleCode}
+            </if>
+        </where>
+    </select>
+
+    <select id="findRoleVoByRoleId" resultMap="roleVoResultMap">
+        select * from role where role_id = #{roleId}
+    </select>
+
 </mapper>
 

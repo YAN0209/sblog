@@ -48,6 +48,7 @@ public class UserDTO {
     /**
      * 角色列表
      */
+    @NotEmpty
     private List<Integer> roles;
 
 }
