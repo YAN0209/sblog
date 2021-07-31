@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapper.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.yan.sblog.dao.mapper.BaseMapper">
+
+    <sql id="baseVoField">
+        create_time, create_by, update_time, update_by
+    </sql>
+
+    <resultMap id="baseVoMap" type="pers.yan.sblog.common.vo.BaseVO">
+        <result column="create_time" property="createTime"></result>
+        <result column="create_by" property="createBy"></result>
+        <result column="update_time" property="updateTime"></result>
+        <result column="update_by" property="updateBy"></result>
+    </resultMap>
+
+
+</mapper>

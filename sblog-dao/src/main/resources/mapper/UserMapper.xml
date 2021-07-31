@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapper.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.yan.sblog.dao.mapper.UserMapper">
+
+    <resultMap id="userVoResultMap" type="pers.yan.sblog.common.vo.UserVO"
+               extends="pers.yan.sblog.dao.mapper.BaseMapper.baseVoMap">
+        <id column="user_id" property="userId"></id>
+        <result column="username" property="username"></result>
+        <result column="login_name" property="loginName"></result>
+        <result column="user_status" property="userStatus"></result>
+        <collection property="roles" column="user_id"
+                    select="pers.yan.sblog.dao.mapper.RoleMapper.findRoleVoByUserId"></collection>
+    </resultMap>
+
+    <select id="findUserVoByPage" resultMap="userVoResultMap">
+        select user_id, username, login_name, user_status,
+        <include refid="pers.yan.sblog.dao.mapper.BaseMapper.baseVoField"></include>
+        from user
+        <where>
+            <if test="param.userId != null">
+                and user_id = #{param.userId}
+            </if>
+            <if test="param.username != null">
+                and usename like concat(concat('%', #{param.username}), '#')
+            </if>
+            <if test="param.userStatus != null">
+                and user_status = #{param.userStatus}
+            </if>
+        </where>
+    </select>
+
+    <select id="findUserVoByLoginName" resultMap="userVoResultMap">
+        select user_id, username, login_name, user_status,
+        <include refid="pers.yan.sblog.dao.mapper.BaseMapper.baseVoField"></include>
+        from user where login_name = #{loginName}
+    </select>
+
+    <select id="findUserVoById" resultMap="userVoResultMap">
+        select user_id, username, login_name, user_status,
+        <include refid="pers.yan.sblog.dao.mapper.BaseMapper.baseVoField"></include>
+        from user where user_id = #{userId}
+    </select>
+
+    <select id="findUserByLoginName" resultType="pers.yan.sblog.common.entity.User">
+        select *
+        from user
+        where login_name = #{loginName}
+    </select>
+
+</mapper>

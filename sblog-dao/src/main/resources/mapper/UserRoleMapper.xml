@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapper.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.yan.sblog.dao.mapper.UserRoleMapper">
+
+    <select id="findByUserIdAndRoleId" resultType="pers.yan.sblog.common.entity.UserRole">
+        select *
+        from user_role
+        where user_id = #{userId}
+          and role_id = #{roleId}
+    </select>
+
+    <select id="findByUserId" resultType="pers.yan.sblog.common.entity.UserRole">
+        select *
+        from user_role
+        where user_id = #{userId}
+    </select>
+
+    <delete id="deleteByUserId">
+        delete
+        from user_role
+        where user_id = #{userId}
+    </delete>
+
+</mapper>
