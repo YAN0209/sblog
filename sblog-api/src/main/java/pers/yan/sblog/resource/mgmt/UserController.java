@@ -13,8 +13,6 @@ import pers.yan.sblog.common.vo.BasePage;
 import pers.yan.sblog.common.vo.UserVO;
 import pers.yan.sblog.service.UserService;
 
-import java.util.Optional;
-
 /**
  * 用户controller
  *
@@ -54,18 +52,16 @@ public class UserController {
         return ApiResult.ok(userService.addUser(userDTO));
     }
 
-    @PutMapping("")
+    @PutMapping("/{userId}")
     @PreAuthorize("hasRole('userAdmin') || hasAuthority('user::udpate')")
-    public ApiResult<UserVO> updateUser(@RequestBody @Validated UserDTO userDTO) throws SBlogException {
-        Optional.ofNullable(userDTO.getUserId()).orElseThrow(() -> new SBlogException("用户id不能为空"));
-        return ApiResult.ok(userService.updateUser(userDTO));
+    public ApiResult<UserVO> updateUser(@PathVariable("userId") Integer userId, @RequestBody @Validated UserDTO userDTO) throws SBlogException {
+        return ApiResult.ok(userService.updateUser(userId, userDTO));
     }
 
-    @DeleteMapping("")
+    @DeleteMapping("/{userId}")
     @PreAuthorize("hasRole('userAdmin') || hasAuthority('user::delete')")
-    public ApiResult<Boolean> deleteUser(@RequestBody @Validated UserDTO userDTO) throws SBlogException {
-        Optional.ofNullable(userDTO.getUserId()).orElseThrow(() -> new SBlogException("用户id不能为空"));
-        return ApiResult.ok(userService.deleteUser(userDTO));
+    public ApiResult<Boolean> deleteUser(@PathVariable("userId") Integer userId) throws SBlogException {
+        return ApiResult.ok(userService.deleteUser(userId));
     }
 
 }

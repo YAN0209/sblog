@@ -6,4 +6,8 @@
         delete from role_permission where role_id = #{roleId}
     </delete>
 
+    <delete id="deleteByPermissionId">
+        delete from role_permission where permission_id = #{permissionId}
+    </delete>
+
 </mapper>

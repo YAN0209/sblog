@@ -17,11 +17,6 @@ import java.util.List;
 public class UserDTO {
 
     /**
-     * 用户id
-     */
-    private Integer userId;
-
-    /**
      * 用户名
      */
     @NotBlank

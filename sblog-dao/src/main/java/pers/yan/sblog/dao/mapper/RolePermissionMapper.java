@@ -22,4 +22,12 @@ public interface RolePermissionMapper extends BaseMapper<RolePermission> {
      */
     boolean deleteByRoleId(@Param("roleId") Integer roleId);
 
+    /**
+     * 删除角色权限
+     *
+     * @param permissionId 权限id
+     * @return boolean
+     */
+    boolean deleteByPermissionId(@Param("permissionId") Integer permissionId);
+
 }

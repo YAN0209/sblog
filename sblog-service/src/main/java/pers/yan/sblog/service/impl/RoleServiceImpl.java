@@ -72,8 +72,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public RoleVO updateRole(RoleDTO roleDTO) throws SBlogException {
-        Role role = Optional.ofNullable(this.getById(roleDTO.getRoleId()))
+    public RoleVO updateRole(Integer roleId, RoleDTO roleDTO) throws SBlogException {
+        Role role = Optional.ofNullable(this.getById(roleId))
                 .orElseThrow(() -> new SBlogException("角色不存在"));
 
         checkPermissionExists(roleDTO.getPermissions());
@@ -94,13 +94,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean deleteRole(RoleDTO roleDTO) throws SBlogException {
-        boolean deleteSuccess = this.removeById(roleDTO.getRoleId());
+    public boolean deleteRole(Integer roleId) throws SBlogException {
+        boolean deleteSuccess = this.removeById(roleId);
         if (!deleteSuccess) {
             throw new SBlogException("用户不存在");
         }
 
-        rolePermissionMapper.deleteByRoleId(roleDTO.getRoleId());
+        rolePermissionMapper.deleteByRoleId(roleId);
 
         return true;
     }

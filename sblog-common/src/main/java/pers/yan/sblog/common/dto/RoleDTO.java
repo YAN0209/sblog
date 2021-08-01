@@ -14,9 +14,7 @@ import java.util.List;
  */
 @Data
 public class RoleDTO {
-
-    private Integer roleId;
-
+    
     @NotBlank
     private String roleName;
 

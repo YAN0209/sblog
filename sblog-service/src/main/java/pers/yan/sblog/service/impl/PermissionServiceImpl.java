@@ -2,7 +2,10 @@ package pers.yan.sblog.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pers.yan.sblog.common.dto.PermissionDTO;
 import pers.yan.sblog.common.dto.PermissionQuery;
 import pers.yan.sblog.common.entity.Permission;
@@ -10,8 +13,11 @@ import pers.yan.sblog.common.exception.SBlogException;
 import pers.yan.sblog.common.vo.BasePage;
 import pers.yan.sblog.common.vo.PermissionVO;
 import pers.yan.sblog.dao.mapper.PermissionMapper;
+import pers.yan.sblog.dao.mapper.RolePermissionMapper;
 import pers.yan.sblog.service.PermissionService;
 import pers.yan.sblog.util.PageUtil;
+
+import java.util.Optional;
 
 /**
  * @author likaiyan
@@ -20,30 +26,49 @@ import pers.yan.sblog.util.PageUtil;
 @Service
 public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permission> implements PermissionService {
 
+    @Autowired
+    private RolePermissionMapper rolePermissionMapper;
+
     @Override
     public BasePage<PermissionVO> findPermissionVoByPage(PermissionQuery permissionQuery, int page, int size) {
         Page<PermissionVO> permissionPage = Page.of(page, size);
-
+        this.baseMapper.findPermissionVoByPage(permissionPage, permissionQuery);
         return PageUtil.convert(permissionPage);
     }
 
     @Override
     public PermissionVO findPermissionVoByPermissionId(int permissionId) {
-        throw new UnsupportedOperationException("Method not implemented.");
+        return this.baseMapper.findPermissionVoByPermissionId(permissionId);
     }
 
     @Override
     public PermissionVO addPermission(PermissionDTO permissionDTO) {
-        throw new UnsupportedOperationException("Method not implemented.");
+        Permission permission = new Permission();
+        BeanUtils.copyProperties(permissionDTO, permission);
+        this.save(permission);
+
+        return this.baseMapper.findPermissionVoByPermissionId(permission.getPermissionId());
     }
 
     @Override
-    public PermissionVO updatePermission(PermissionDTO permissionDTO) throws SBlogException {
-        throw new UnsupportedOperationException("Method not implemented.");
+    public PermissionVO updatePermission(Integer permissionId, PermissionDTO permissionDTO) throws SBlogException {
+        Permission permission = Optional.ofNullable(this.getById(permissionId))
+                .orElseThrow(() -> new SBlogException("权限不存在"));
+
+        BeanUtils.copyProperties(permissionDTO, permission);
+        this.updateById(permission);
+
+        return this.baseMapper.findPermissionVoByPermissionId(permission.getPermissionId());
     }
 
     @Override
-    public boolean deletePermission(PermissionDTO permissionDTO) throws SBlogException {
-        throw new UnsupportedOperationException("Method not implemented.");
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deletePermission(Integer permissionId) throws SBlogException {
+        boolean deleteSuccess = this.removeById(permissionId);
+        if (!deleteSuccess) {
+            throw new SBlogException("权限不存在");
+        }
+
+        return rolePermissionMapper.deleteByPermissionId(permissionId);
     }
 }

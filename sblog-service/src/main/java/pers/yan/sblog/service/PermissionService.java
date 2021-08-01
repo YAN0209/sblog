@@ -45,18 +45,19 @@ public interface PermissionService extends IService<Permission> {
     /**
      * 更新权限
      *
+     * @param permissionId  权限id
      * @param permissionDTO 权限传输类
      * @return 权限vo
      * @throws SBlogException 权限不存在
      */
-    PermissionVO updatePermission(PermissionDTO permissionDTO) throws SBlogException;
+    PermissionVO updatePermission(Integer permissionId, PermissionDTO permissionDTO) throws SBlogException;
 
     /**
      * 删除权限
      *
-     * @param permissionDTO 权限传输类
+     * @param permissionId 权限id
      * @return boolean
      * @throws SBlogException 权限不存在
      */
-    boolean deletePermission(PermissionDTO permissionDTO) throws SBlogException;
+    boolean deletePermission(Integer permissionId) throws SBlogException;
 }

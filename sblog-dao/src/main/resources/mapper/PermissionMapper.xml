@@ -15,4 +15,21 @@
         where rp.role_id = #{roleId}
     </select>
 
+    <select id="findPermissionVoByPage" resultType="pers.yan.sblog.common.vo.PermissionVO">
+        select * from permission
+        <where>
+            <if test="permissionQuery.permissionName != null">
+                and permission_name = #{permissionName}
+            </if>
+            <if test="permissionQuery.permissionCode != null">
+                and permission_code = #{permissionCode}
+            </if>
+        </where>
+    </select>
+
+    <select id="fendPermissionVoByPermissionId" resultType="pers.yan.sblog.common.vo.PermissionVO">
+        select *
+        from permission
+        where permission_id = #{permissionId}
+    </select>
 </mapper>

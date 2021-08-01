@@ -44,19 +44,20 @@ public interface RoleService extends IService<Role> {
     /**
      * 更新角色
      *
+     * @param roleId  角色id
      * @param roleDTO 角色参数
      * @return 角色
      * @throws SBlogException 角色不存在/权限不存在
      */
-    RoleVO updateRole(RoleDTO roleDTO) throws SBlogException;
+    RoleVO updateRole(Integer roleId, RoleDTO roleDTO) throws SBlogException;
 
     /**
      * 删除角色
      *
-     * @param roleDTO 角色参数
+     * @param roleId  角色id
      * @return boolean
      * @throws SBlogException 角色不存在
      */
-    boolean deleteRole(RoleDTO roleDTO) throws SBlogException;
+    boolean deleteRole(Integer roleId) throws SBlogException;
 
 }

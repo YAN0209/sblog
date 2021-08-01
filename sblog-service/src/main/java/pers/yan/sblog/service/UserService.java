@@ -44,19 +44,20 @@ public interface UserService extends IService<User> {
     /**
      * 更新用户
      *
+     * @param userId  用户id
      * @param userDTO 用户信息
      * @return 用户信息
      * @throws SBlogException 用户不存在/角色不存在
      */
-    UserVO updateUser(UserDTO userDTO) throws SBlogException;
+    UserVO updateUser(Integer userId, UserDTO userDTO) throws SBlogException;
 
     /**
      * 删除用户
      *
-     * @param userDTO 用户信息
+     * @param userId  用户id
      * @return boolean
      * @throws SBlogException 用户不存在
      */
-    Boolean deleteUser(UserDTO userDTO) throws SBlogException;
+    Boolean deleteUser(Integer userId) throws SBlogException;
 
 }

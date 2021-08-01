@@ -10,9 +10,7 @@ import lombok.Data;
  */
 @Data
 public class PermissionDTO {
-
-    private Integer permissionId;
-
+    
     private String permissionName;
 
     private String permissionCode;

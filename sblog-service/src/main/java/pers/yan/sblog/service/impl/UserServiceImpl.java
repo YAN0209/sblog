@@ -83,8 +83,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public UserVO updateUser(UserDTO userDTO) throws SBlogException {
-        User user = Optional.ofNullable(this.getById(userDTO.getUserId()))
+    public UserVO updateUser(Integer userId, UserDTO userDTO) throws SBlogException {
+        User user = Optional.ofNullable(this.getById(userId))
                 .orElseThrow(() -> new SBlogException("用户不存在"));
 
         checkRoleExists(userDTO.getRoles());
@@ -122,13 +122,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean deleteUser(UserDTO userDTO) throws SBlogException {
-        boolean removeSuccess = this.removeById(userDTO.getUserId());
+    public Boolean deleteUser(Integer userId) throws SBlogException {
+        boolean removeSuccess = this.removeById(userId);
         if (!removeSuccess) {
             throw new SBlogException("用户不存在");
         }
 
-        userRoleMapper.deleteByUserId(userDTO.getUserId());
+        userRoleMapper.deleteByUserId(userId);
 
         return true;
     }
