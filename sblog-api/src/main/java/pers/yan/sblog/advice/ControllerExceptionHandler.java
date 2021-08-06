@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import pers.yan.sblog.common.exception.SBlogException;
 import pers.yan.sblog.common.vo.ApiResult;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -22,8 +21,8 @@ import java.io.IOException;
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(SBlogException.class)
-    public void SBlogExceptionHandler(SBlogException e, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        log.error("SBlogExceptionHandler: {}", e);
+    public void SBlogExceptionHandler(SBlogException e, HttpServletResponse response) throws IOException {
+        log.error("SBlogExceptionHandler", e);
         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json");
@@ -32,8 +31,8 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public void ExceptionHandler(Exception e, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        log.error("ExceptionHandler: {}", e);
+    public void ExceptionHandler(Exception e, HttpServletResponse response) throws IOException {
+        log.error("ExceptionHandler", e);
         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json");

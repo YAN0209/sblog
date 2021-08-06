@@ -2,6 +2,7 @@ package pers.yan.sblog.service;
 
 import pers.yan.sblog.common.dto.LoginDTO;
 import pers.yan.sblog.common.exception.SBlogException;
+import pers.yan.sblog.common.vo.UserVO;
 
 /**
  * 登录服务
@@ -13,7 +14,19 @@ public interface LoginService {
 
     /**
      * 登录
+     *
+     * @param loginDTO 参数
+     * @return boolean
+     * @throws SBlogException 用户不存在
      */
     boolean login(LoginDTO loginDTO) throws SBlogException;
+
+
+    /**
+     * 当前用户信息
+     *
+     * @return 用户信息
+     */
+    UserVO userInfo();
 
 }

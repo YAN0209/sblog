@@ -1,7 +1,6 @@
 package pers.yan.sblog.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -21,9 +20,8 @@ public interface UserMapper extends BaseMapper<User> {
      *
      * @param page      分页实体
      * @param userQuery 查询参数
-     * @return 分页实体
      */
-    IPage<UserVO> findUserVoByPage(Page<UserVO> page, @Param("param") UserQuery userQuery);
+    void findUserVoByPage(Page<UserVO> page, @Param("param") UserQuery userQuery);
 
     /**
      * 查询用户

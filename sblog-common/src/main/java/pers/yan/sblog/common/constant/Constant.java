@@ -8,4 +8,6 @@ public interface Constant {
 
     String RESPONSE_TOKEN_HEADER = "x-sblog-token";
 
+    String REDIS_USER_DETAIL = "sblog::userDetail";
+
 }

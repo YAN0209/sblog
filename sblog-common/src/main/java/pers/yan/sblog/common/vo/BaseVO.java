@@ -3,6 +3,7 @@ package pers.yan.sblog.common.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
  * @date 2021/7/23 10:56 上午
  */
 @Data
-public class BaseVO {
+public class BaseVO implements Serializable {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;

@@ -1,12 +1,14 @@
 package pers.yan.sblog.resource.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pers.yan.sblog.common.constant.Constant;
 import pers.yan.sblog.common.dto.LoginDTO;
 import pers.yan.sblog.common.exception.SBlogException;
 import pers.yan.sblog.common.vo.ApiResult;
+import pers.yan.sblog.common.vo.UserVO;
 import pers.yan.sblog.service.LoginService;
 import pers.yan.sblog.util.JwtUtil;
 
@@ -24,6 +26,9 @@ public class LoginController {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     /**
      * 登录
@@ -51,6 +56,16 @@ public class LoginController {
     public ApiResult<Void> refreshToken(@RequestHeader("Authorization") String token, HttpServletResponse response) {
         response.setHeader(Constant.RESPONSE_TOKEN_HEADER, JwtUtil.refreshToken(token));
         return ApiResult.ok();
+    }
+
+    /**
+     * 获取当前用户信息
+     *
+     * @return 用户信息
+     */
+    @GetMapping("/user")
+    public ApiResult<UserVO> userInfo() {
+        return ApiResult.ok(loginService.userInfo());
     }
 
 }

@@ -7,9 +7,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pers.yan.sblog.common.constant.Constant;
 import pers.yan.sblog.common.dto.UserDTO;
 import pers.yan.sblog.common.dto.UserQuery;
 import pers.yan.sblog.common.entity.Role;
@@ -49,6 +52,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private UserRoleMapper userRoleMapper;
 
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
     @Override
     public BasePage<UserVO> findByPage(int page, int size, UserQuery userQuery) {
         Page<UserVO> userVoPage = new Page<>(page, size);
@@ -83,6 +89,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(cacheNames = Constant.REDIS_USER_DETAIL, key = "#result.userId")
     public UserVO updateUser(Integer userId, UserDTO userDTO) throws SBlogException {
         User user = Optional.ofNullable(this.getById(userId))
                 .orElseThrow(() -> new SBlogException("用户不存在"));
@@ -104,7 +111,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             List<Integer> deleteUserRoleIds = userRoles.stream()
                     .filter(userRole -> !userDTO.getRoles().contains(userRole.getRoleId()))
                     .map(UserRole::getUserRoleId).collect(Collectors.toList());
-            userRoleMapper.deleteBatchIds(deleteUserRoleIds);
+            if (CollectionUtils.isNotEmpty(deleteUserRoleIds)) {
+                userRoleMapper.deleteBatchIds(deleteUserRoleIds);
+            }
         }
 
         //添加新用户角色
@@ -122,6 +131,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(cacheNames = Constant.REDIS_USER_DETAIL, key = "#userId")
     public Boolean deleteUser(Integer userId) throws SBlogException {
         boolean removeSuccess = this.removeById(userId);
         if (!removeSuccess) {

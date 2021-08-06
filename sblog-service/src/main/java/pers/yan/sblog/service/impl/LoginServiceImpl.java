@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 import pers.yan.sblog.common.dto.LoginDTO;
 import pers.yan.sblog.common.entity.User;
 import pers.yan.sblog.common.exception.SBlogException;
+import pers.yan.sblog.common.vo.UserVO;
 import pers.yan.sblog.dao.mapper.UserMapper;
 import pers.yan.sblog.service.LoginService;
+import pers.yan.sblog.util.UserUtil;
 
 import java.util.Optional;
 
@@ -34,5 +36,10 @@ public class LoginServiceImpl implements LoginService {
             throw new SBlogException("用户不存在或密码错误");
         }
         return true;
+    }
+
+    @Override
+    public UserVO userInfo() {
+        return UserUtil.getCurrentUserVO();
     }
 }
