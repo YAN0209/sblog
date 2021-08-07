@@ -3,6 +3,7 @@ package pers.yan.sblog.util;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import pers.yan.sblog.common.bo.SblogUserDetails;
+import pers.yan.sblog.common.entity.User;
 import pers.yan.sblog.common.vo.UserVO;
 
 /**
@@ -41,6 +42,14 @@ public class UserUtil {
         SblogUserDetails sblogUserDetails = getUserDetails();
         if (sblogUserDetails != null) {
             return sblogUserDetails.getUserVO();
+        }
+        return null;
+    }
+
+    public static User getCurrentUser() {
+        SblogUserDetails sblogUserDetails = getUserDetails();
+        if (sblogUserDetails != null) {
+            return sblogUserDetails.getUser();
         }
         return null;
     }

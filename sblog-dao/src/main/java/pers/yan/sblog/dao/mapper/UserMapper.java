@@ -21,7 +21,7 @@ public interface UserMapper extends BaseMapper<User> {
      * @param page      分页实体
      * @param userQuery 查询参数
      */
-    void findUserVoByPage(Page<UserVO> page, @Param("param") UserQuery userQuery);
+    Page<UserVO> findUserVoByPage(Page<UserVO> page, @Param("param") UserQuery userQuery);
 
     /**
      * 查询用户

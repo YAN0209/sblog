@@ -6,6 +6,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pers.yan.sblog.common.constant.Constant;
 import pers.yan.sblog.common.dto.LoginDTO;
+import pers.yan.sblog.common.entity.User;
 import pers.yan.sblog.common.exception.SBlogException;
 import pers.yan.sblog.common.vo.ApiResult;
 import pers.yan.sblog.common.vo.UserVO;
@@ -40,8 +41,8 @@ public class LoginController {
      */
     @PostMapping("/login")
     public ApiResult<Void> login(@RequestBody @Validated LoginDTO loginDTO, HttpServletResponse response) throws SBlogException {
-        loginService.login(loginDTO);
-        response.setHeader(Constant.RESPONSE_TOKEN_HEADER, JwtUtil.generateToken(loginDTO.getLoginName()));
+        User user = loginService.login(loginDTO);
+        response.setHeader(Constant.RESPONSE_TOKEN_HEADER, JwtUtil.generateToken(String.valueOf(user.getUserId())));
         return ApiResult.ok();
     }
 

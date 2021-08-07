@@ -27,7 +27,7 @@
         </where>
     </select>
 
-    <select id="fendPermissionVoByPermissionId" resultType="pers.yan.sblog.common.vo.PermissionVO">
+    <select id="findPermissionVoByPermissionId" resultType="pers.yan.sblog.common.vo.PermissionVO">
         select *
         from permission
         where permission_id = #{permissionId}

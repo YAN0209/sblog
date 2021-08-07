@@ -29,13 +29,13 @@ public class LoginServiceImpl implements LoginService {
     private PasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public boolean login(LoginDTO loginDTO) throws SBlogException {
+    public User login(LoginDTO loginDTO) throws SBlogException {
         User user = Optional.ofNullable(userMapper.findUserByLoginName(loginDTO.getLoginName()))
                 .orElseThrow(() -> new SBlogException("用户不存在或密码错误"));
         if (!bCryptPasswordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
             throw new SBlogException("用户不存在或密码错误");
         }
-        return true;
+        return user;
     }
 
     @Override
