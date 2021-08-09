@@ -1,4 +1,4 @@
-package pers.yan.sblog.service;
+package pers.yan.sblog.service.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import pers.yan.sblog.common.dto.RoleDTO;

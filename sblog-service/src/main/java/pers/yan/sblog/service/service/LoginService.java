@@ -1,4 +1,4 @@
-package pers.yan.sblog.service;
+package pers.yan.sblog.service.service;
 
 import pers.yan.sblog.common.dto.LoginDTO;
 import pers.yan.sblog.common.entity.User;

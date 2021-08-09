@@ -9,7 +9,7 @@ import pers.yan.sblog.common.exception.SBlogException;
 import pers.yan.sblog.common.vo.ApiResult;
 import pers.yan.sblog.common.vo.BasePage;
 import pers.yan.sblog.common.vo.RoleVO;
-import pers.yan.sblog.service.RoleService;
+import pers.yan.sblog.service.service.RoleService;
 
 /**
  * 角色controller

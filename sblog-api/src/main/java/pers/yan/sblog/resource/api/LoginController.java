@@ -10,7 +10,7 @@ import pers.yan.sblog.common.entity.User;
 import pers.yan.sblog.common.exception.SBlogException;
 import pers.yan.sblog.common.vo.ApiResult;
 import pers.yan.sblog.common.vo.UserVO;
-import pers.yan.sblog.service.LoginService;
+import pers.yan.sblog.service.service.LoginService;
 import pers.yan.sblog.util.JwtUtil;
 
 import javax.servlet.http.HttpServletResponse;

@@ -11,7 +11,7 @@ import pers.yan.sblog.common.exception.SBlogException;
 import pers.yan.sblog.common.vo.ApiResult;
 import pers.yan.sblog.common.vo.BasePage;
 import pers.yan.sblog.common.vo.UserVO;
-import pers.yan.sblog.service.UserService;
+import pers.yan.sblog.service.service.UserService;
 
 /**
  * 用户controller

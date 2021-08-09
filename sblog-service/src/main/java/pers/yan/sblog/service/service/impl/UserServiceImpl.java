@@ -1,4 +1,4 @@
-package pers.yan.sblog.service.impl;
+package pers.yan.sblog.service.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +23,7 @@ import pers.yan.sblog.common.vo.UserVO;
 import pers.yan.sblog.dao.mapper.RoleMapper;
 import pers.yan.sblog.dao.mapper.UserMapper;
 import pers.yan.sblog.dao.mapper.UserRoleMapper;
-import pers.yan.sblog.service.UserService;
+import pers.yan.sblog.service.service.UserService;
 import pers.yan.sblog.util.PageUtil;
 
 import java.util.Collections;
@@ -51,9 +50,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     private UserRoleMapper userRoleMapper;
-
-    @Autowired
-    private StringRedisTemplate redisTemplate;
 
     @Override
     public BasePage<UserVO> findByPage(int page, int size, UserQuery userQuery) {

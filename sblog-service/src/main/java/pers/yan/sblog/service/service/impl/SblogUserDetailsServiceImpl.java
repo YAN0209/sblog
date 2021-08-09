@@ -1,4 +1,4 @@
-package pers.yan.sblog.service.impl;
+package pers.yan.sblog.service.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;

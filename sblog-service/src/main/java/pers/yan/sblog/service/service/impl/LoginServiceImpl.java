@@ -1,4 +1,4 @@
-package pers.yan.sblog.service.impl;
+package pers.yan.sblog.service.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -8,7 +8,7 @@ import pers.yan.sblog.common.entity.User;
 import pers.yan.sblog.common.exception.SBlogException;
 import pers.yan.sblog.common.vo.UserVO;
 import pers.yan.sblog.dao.mapper.UserMapper;
-import pers.yan.sblog.service.LoginService;
+import pers.yan.sblog.service.service.LoginService;
 import pers.yan.sblog.util.UserUtil;
 
 import java.util.Optional;

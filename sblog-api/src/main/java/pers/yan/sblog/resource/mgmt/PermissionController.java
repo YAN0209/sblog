@@ -9,7 +9,7 @@ import pers.yan.sblog.common.exception.SBlogException;
 import pers.yan.sblog.common.vo.ApiResult;
 import pers.yan.sblog.common.vo.BasePage;
 import pers.yan.sblog.common.vo.PermissionVO;
-import pers.yan.sblog.service.PermissionService;
+import pers.yan.sblog.service.service.PermissionService;
 
 /**
  * 权限controller

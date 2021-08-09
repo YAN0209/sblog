@@ -1,4 +1,4 @@
-package pers.yan.sblog.service.impl;
+package pers.yan.sblog.service.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -14,7 +14,7 @@ import pers.yan.sblog.common.vo.BasePage;
 import pers.yan.sblog.common.vo.PermissionVO;
 import pers.yan.sblog.dao.mapper.PermissionMapper;
 import pers.yan.sblog.dao.mapper.RolePermissionMapper;
-import pers.yan.sblog.service.PermissionService;
+import pers.yan.sblog.service.service.PermissionService;
 import pers.yan.sblog.util.PageUtil;
 
 import java.util.Optional;
